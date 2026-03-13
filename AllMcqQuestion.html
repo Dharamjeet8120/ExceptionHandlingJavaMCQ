@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Exception Handling — MCQ Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --surface: #111118;
+  --surface2: #1a1a24;
+  --border: #252535;
+  --border2: #303045;
+  --text: #e8e8f0;
+  --muted: #6b6b8a;
+  --accent: #6ee7f7;
+  --accent2: #f76e9c;
+  --accent3: #7ef7a0;
+  --accent4: #f7d76e;
+  --correct: #4ade80;
+  --wrong: #f87171;
+  --t0: #6ee7f7; --t1: #f76e9c; --t2: #a78bfa; --t3: #fb923c;
+  --t4: #34d399; --t5: #60a5fa; --t6: #f472b6; --t7: #fbbf24; --t8: #c084fc;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Syne', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* BG GRID */
+body::before {
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(110,231,247,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(110,231,247,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events:none;
+  z-index:0;
+}
+
+.app { position:relative; z-index:1; }
+
+/* ===== TOPIC SELECT SCREEN ===== */
+#screen-topics {
+  min-height: 100vh;
+  padding: 40px 20px 60px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: 56px;
+  animation: fadeDown 0.7s ease both;
+}
+
+.hero-label {
+  font-family: 'Fira Code', monospace;
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.hero h1 {
+  font-size: clamp(32px, 6vw, 64px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -2px;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, #e8e8f0 0%, #6ee7f7 40%, #f76e9c 80%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero p {
+  color: var(--muted);
+  font-size: 15px;
+  font-family: 'Fira Code', monospace;
+}
+
+.topics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 14px;
+}
+
+.topic-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px 24px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  animation: fadeUp 0.5s ease both;
+  position: relative;
+  overflow: hidden;
+}
+
+.topic-card::before {
+  content:'';
+  position:absolute;
+  left:0; top:0; bottom:0;
+  width: 3px;
+  background: var(--tc);
+  border-radius: 14px 0 0 14px;
+}
+
+.topic-card:hover {
+  border-color: var(--tc);
+  transform: translateX(4px);
+  box-shadow: -4px 0 20px color-mix(in srgb, var(--tc) 20%, transparent);
+}
+
+.tc-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--tc) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--tc) 25%, transparent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.tc-info { flex: 1; }
+
+.tc-name {
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--tc);
+  margin-bottom: 3px;
+}
+
+.tc-desc {
+  font-size: 12px;
+  color: var(--muted);
+  font-family: 'Fira Code', monospace;
+}
+
+.tc-count {
+  font-family: 'Fira Code', monospace;
+  font-size: 11px;
+  color: var(--tc);
+  background: color-mix(in srgb, var(--tc) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--tc) 20%, transparent);
+  padding: 4px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.start-all-btn {
+  display: block;
+  width: 100%;
+  max-width: 360px;
+  margin: 40px auto 0;
+  padding: 16px 32px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #0a0a0f;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  letter-spacing: 0.5px;
+  animation: fadeUp 0.5s 0.6s ease both;
+}
+
+.start-all-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(110,231,247,0.3);
+}
+
+/* ===== QUIZ SCREEN ===== */
+#screen-quiz { display:none; min-height:100vh; padding: 0 20px 60px; }
+
+.quiz-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10,10,15,0.9);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0;
+  margin-bottom: 32px;
+}
+
+.quiz-header-inner {
+  max-width: 820px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.back-btn {
+  font-family: 'Fira Code', monospace;
+  font-size: 12px;
+  color: var(--muted);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.back-btn:hover { color: var(--text); border-color: var(--border2); }
+
+.quiz-topic-name {
+  font-weight: 700;
+  font-size: 16px;
+  flex: 1;
+}
+
+.quiz-progress-text {
+  font-family: 'Fira Code', monospace;
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.quiz-score-badge {
+  font-family: 'Fira Code', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 20px;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+}
+
+.progress-bar-wrap {
+  width: 100%;
+  height: 3px;
+  background: var(--surface2);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+/* QUESTION */
+.question-wrap {
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.q-num {
+  font-family: 'Fira Code', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+.q-text {
+  font-size: clamp(16px, 2.5vw, 20px);
+  font-weight: 600;
+  line-height: 1.5;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+
+.q-code {
+  font-family: 'Fira Code', monospace;
+  font-size: 13px;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin-bottom: 24px;
+  color: #c9d1d9;
+  line-height: 1.7;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.option {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  transition: all 0.15s ease;
+  font-size: 14px;
+  font-family: 'Fira Code', monospace;
+  line-height: 1.5;
+}
+
+.option:hover:not(.disabled) {
+  border-color: var(--border2);
+  background: var(--surface2);
+}
+
+.opt-letter {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+  color: var(--muted);
+  transition: all 0.15s;
+}
+
+.option:hover:not(.disabled) .opt-letter {
+  background: color-mix(in srgb, var(--accent) 15%, transparent);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.option.correct {
+  background: rgba(74,222,128,0.08);
+  border-color: var(--correct);
+}
+.option.correct .opt-letter {
+  background: var(--correct);
+  border-color: var(--correct);
+  color: #0a0a0f;
+}
+
+.option.wrong {
+  background: rgba(248,113,113,0.08);
+  border-color: var(--wrong);
+}
+.option.wrong .opt-letter {
+  background: var(--wrong);
+  border-color: var(--wrong);
+  color: #0a0a0f;
+}
+
+.option.disabled { cursor: default; }
+
+.explanation {
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-left: 3px solid var(--accent3);
+  border-radius: 8px;
+  padding: 14px 18px;
+  font-size: 13px;
+  font-family: 'Fira Code', monospace;
+  line-height: 1.6;
+  color: #b0b8c8;
+  margin-bottom: 24px;
+  display: none;
+}
+
+.explanation.show { display: block; }
+
+.nav-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.nav-btn {
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-next {
+  background: linear-gradient(135deg, var(--accent), #3ec9f7);
+  color: #0a0a0f;
+}
+
+.btn-next:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(110,231,247,0.3); }
+
+.btn-skip {
+  background: var(--surface2);
+  color: var(--muted);
+  border: 1px solid var(--border2);
+}
+
+.btn-finish {
+  background: linear-gradient(135deg, var(--accent2), #e74c8b);
+  color: #fff;
+}
+
+/* ===== RESULTS SCREEN ===== */
+#screen-results { display:none; min-height:100vh; padding: 60px 20px; }
+
+.results-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.result-emoji { font-size: 72px; margin-bottom: 20px; animation: pop 0.5s ease both; }
+
+.result-title {
+  font-size: 40px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin-bottom: 8px;
+}
+
+.result-topic { font-family: 'Fira Code', monospace; font-size: 13px; color: var(--muted); margin-bottom: 32px; }
+
+.score-ring-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.score-ring {
+  width: 160px; height: 160px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 4px solid var(--border2);
+  position: relative;
+  background: var(--surface);
+}
+
+.score-ring::before {
+  content:'';
+  position:absolute;
+  inset:-4px;
+  border-radius:50%;
+  background: conic-gradient(var(--accent) var(--pct), var(--border2) var(--pct));
+  z-index:-1;
+}
+
+.score-big { font-size: 42px; font-weight: 800; color: var(--accent); }
+.score-total { font-size: 14px; color: var(--muted); font-family: 'Fira Code', monospace; }
+
+.stats-row {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.stat-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 28px;
+  min-width: 120px;
+}
+
+.stat-val { font-size: 28px; font-weight: 800; margin-bottom: 4px; }
+.stat-label { font-size: 11px; color: var(--muted); font-family: 'Fira Code', monospace; letter-spacing: 1px; text-transform: uppercase; }
+
+.result-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+.ra-btn {
+  padding: 14px 28px;
+  border-radius: 10px;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.ra-primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #0a0a0f; }
+.ra-secondary { background: var(--surface); color: var(--text); border: 1.5px solid var(--border2); }
+.ra-primary:hover { transform:translateY(-2px); box-shadow:0 6px 24px rgba(110,231,247,0.3); }
+.ra-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+/* REVIEW */
+.review-list { text-align: left; margin-top: 48px; }
+.review-title { font-size: 18px; font-weight: 700; margin-bottom: 20px; color: var(--muted); }
+
+.review-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+.review-item.rev-correct { border-left: 3px solid var(--correct); }
+.review-item.rev-wrong { border-left: 3px solid var(--wrong); }
+
+.review-q { color: var(--text); margin-bottom: 8px; font-weight: 600; }
+.review-ans { font-family: 'Fira Code', monospace; font-size: 12px; color: var(--muted); }
+.review-ans span.c { color: var(--correct); }
+.review-ans span.w { color: var(--wrong); }
+
+@keyframes fadeDown { from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)} }
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)} }
+@keyframes pop { 0%{transform:scale(0)}70%{transform:scale(1.15)}100%{transform:scale(1)} }
+
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- TOPIC SELECT -->
+<div id="screen-topics">
+  <div class="hero">
+    <span class="hero-label">// Java Exception Handling</span>
+    <h1>MCQ Master<br>Quiz Bank</h1>
+    <p>270 questions · 9 topics · 30 per topic</p>
+  </div>
+  <div class="topics-grid" id="topics-grid"></div>
+  <button class="start-all-btn" onclick="startAll()">⚡ Start All Topics (270 Qs)</button>
+</div>
+
+<!-- QUIZ -->
+<div id="screen-quiz">
+  <div class="quiz-header">
+    <div class="quiz-header-inner">
+      <button class="back-btn" onclick="goHome()">← Topics</button>
+      <div class="quiz-topic-name" id="quiz-topic-name"></div>
+      <div class="quiz-progress-text" id="quiz-progress-text"></div>
+      <div class="quiz-score-badge" id="quiz-score-badge">Score: 0</div>
+    </div>
+    <div style="max-width:820px;margin:0 auto;padding:0">
+      <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progress-bar"></div></div>
+    </div>
+  </div>
+  <div class="question-wrap" id="question-wrap"></div>
+</div>
+
+<!-- RESULTS -->
+<div id="screen-results">
+  <div class="results-inner" id="results-inner"></div>
+</div>
+
+</div>
+
+<script>
+const TOPICS = [
+  { id:0, name:"try-catch Basics",           icon:"🛡️", desc:"Exception handling fundamentals",    color:"var(--t0)" },
+  { id:1, name:"try-catch-finally",           icon:"🔁", desc:"finally block behavior",             color:"var(--t1)" },
+  { id:2, name:"Multiple catch Blocks",       icon:"🎯", desc:"Catching different exceptions",       color:"var(--t2)" },
+  { id:3, name:"try-with-resources",          icon:"📦", desc:"AutoCloseable & resource mgmt",       color:"var(--t3)" },
+  { id:4, name:"Checked Exceptions",          icon:"✅", desc:"Compile-time checked exceptions",     color:"var(--t4)" },
+  { id:5, name:"Unchecked Exceptions",        icon:"⚠️", desc:"RuntimeException hierarchy",          color:"var(--t5)" },
+  { id:6, name:"Custom Exceptions",           icon:"🔧", desc:"User-defined exception classes",      color:"var(--t6)" },
+  { id:7, name:"Nested try-catch",            icon:"🪆", desc:"try inside try, exception flow",      color:"var(--t7)" },
+  { id:8, name:"Working with Infinity",       icon:"♾️", desc:"10/0.0, NaN, IEEE 754 edge cases",    color:"var(--t8)" },
+];
+
+const ALL_QUESTIONS = [
+// ============================================================
+// TOPIC 0: try-catch Basics (30 Qs)
+// ============================================================
+{t:0,q:"What is the purpose of a try-catch block in Java?",o:["To speed up program execution","To handle exceptions gracefully without crashing","To define new exception types","To replace if-else conditions"],a:1,e:"try-catch allows the program to handle runtime errors gracefully, preventing abrupt termination."},
+{t:0,q:"Which keyword is used to throw an exception manually?",o:["catch","throws","throw","finally"],a:2,e:"The 'throw' keyword is used to explicitly throw an exception object."},
+{t:0,q:"What happens if an exception is thrown inside a try block and no matching catch exists?",o:["The program continues normally","The exception is silently ignored","The JVM propagates it up the call stack","The program restarts"],a:2,e:"Unhandled exceptions propagate up through the call stack until caught or the program terminates."},
+{t:0,q:"Which class is the parent of all exceptions in Java?",o:["Error","RuntimeException","Throwable","Exception"],a:2,e:"java.lang.Throwable is the root class for all exceptions and errors in Java."},
+{t:0,q:"What will the following print?\ntry { int x = 1/0; } catch(ArithmeticException e) { System.out.print(\"A\"); }",o:["Nothing","A","1/0","ArithmeticException"],a:1,e:"Integer division by zero throws ArithmeticException, caught here, printing 'A'."},
+{t:0,q:"Can you have a try block without a catch block?",o:["No, catch is always required","Yes, if there is a finally block","Yes, without any other block","No, it won't compile at all"],a:1,e:"A try block must be followed by catch, finally, or both. try alone is a compile error."},
+{t:0,q:"Which of these is NOT an exception in Java?",o:["NullPointerException","OutOfMemoryError","IOException","StackError"],a:3,e:"'StackError' doesn't exist. The correct one is StackOverflowError."},
+{t:0,q:"What is the variable 'e' in: catch(Exception e)?",o:["The exception type","A reference to the thrown exception object","A keyword","The catch block label"],a:1,e:"'e' is a reference variable of type Exception pointing to the thrown exception object."},
+{t:0,q:"Which method returns the detail message of an exception?",o:["toString()","getClass()","getMessage()","getCause()"],a:2,e:"getMessage() returns the detail message string of the exception."},
+{t:0,q:"What does e.printStackTrace() do?",o:["Throws the exception again","Prints the exception type only","Prints the full call stack trace","Logs to a file"],a:2,e:"printStackTrace() prints the exception type, message, and the full call stack to stderr."},
+{t:0,q:"Can a catch block itself throw an exception?",o:["No","Yes","Only if it's a checked exception","Only RuntimeExceptions"],a:1,e:"A catch block can throw any exception, either rethrowing the caught one or a new exception."},
+{t:0,q:"What is the output?\ntry { throw new Exception(\"hi\"); } catch(Exception e) { System.out.print(e.getMessage()); }",o:["Exception","null","hi","Error"],a:2,e:"getMessage() returns the message passed to the constructor, which is 'hi'."},
+{t:0,q:"When is a catch block executed?",o:["Always","Only if try block completes normally","Only when a matching exception is thrown","After finally block"],a:2,e:"A catch block executes only when the corresponding exception type (or subtype) is thrown."},
+{t:0,q:"Which is the correct syntax for a try-catch block?",o:["try() {} catch {}","try {} catch(Exception e) {}","try() catch(Exception) {}","try{} catch{}"],a:1,e:"The correct syntax is: try { } catch(ExceptionType varName) { }"},
+{t:0,q:"What is the output?\ntry { System.out.print(\"T\"); } catch(Exception e) { System.out.print(\"C\"); }",o:["C","T","TC","Nothing"],a:1,e:"No exception is thrown, so only the try block runs, printing 'T'."},
+{t:0,q:"Which package contains most exception classes?",o:["java.io","java.util","java.lang","java.exception"],a:2,e:"java.lang contains core exception classes like RuntimeException, NullPointerException, etc."},
+{t:0,q:"Is it valid to catch 'Throwable'?",o:["No, only Exception subclasses","Yes, but not recommended","Yes, and it's best practice","No, it's abstract"],a:1,e:"You can catch Throwable but it's not recommended as it also catches Errors (JVM problems)."},
+{t:0,q:"What exception is thrown by int[] a = new int[-1]?",o:["IllegalArgumentException","NegativeArraySizeException","ArrayIndexOutOfBoundsException","NullPointerException"],a:1,e:"Creating an array with a negative size throws NegativeArraySizeException."},
+{t:0,q:"What happens to code after the exception-throwing line in a try block?",o:["It still executes","It executes only if it's in a finally block","It is skipped","It causes compile error"],a:2,e:"After an exception is thrown, remaining code in the try block is skipped; control transfers to catch."},
+{t:0,q:"Which method returns the cause of an exception?",o:["getMessage()","getClass()","getCause()","getStack()"],a:2,e:"getCause() returns the Throwable that caused this exception, useful for exception chaining."},
+{t:0,q:"What is exception chaining?",o:["Catching multiple exceptions","Wrapping one exception inside another","Throwing exceptions in sequence","Having nested try blocks"],a:1,e:"Exception chaining (wrapping) preserves the original cause inside a new exception."},
+{t:0,q:"What is the output?\ntry { int[] a={}; System.out.print(a[0]); } catch(ArrayIndexOutOfBoundsException e){ System.out.print(\"E\"); }",o:["0","null","E","Nothing"],a:2,e:"Accessing index 0 of an empty array throws ArrayIndexOutOfBoundsException, printing 'E'."},
+{t:0,q:"Can a try block have multiple catch blocks?",o:["No","Yes, maximum 2","Yes, unlimited","Only if using Java 7+"],a:2,e:"A try block can have any number of catch blocks to handle different exception types."},
+{t:0,q:"What is a 'multi-catch' in Java 7+?",o:["catch(Ex1 | Ex2 e)","catch(Ex1 e, Ex2 e)","catch(Ex1, Ex2 e)","catch[Ex1 | Ex2 e]"],a:0,e:"Java 7 multi-catch syntax: catch(ExceptionType1 | ExceptionType2 e) handles both."},
+{t:0,q:"Which exception is thrown when you call a method on a null reference?",o:["IllegalArgumentException","NullPointerException","NullReferenceException","NoSuchMethodException"],a:1,e:"NullPointerException is thrown when attempting to use a null object reference."},
+{t:0,q:"What does 'throws' keyword in a method signature indicate?",o:["The method throws immediately","The method may propagate that exception to caller","The exception is caught inside","The method catches that exception"],a:1,e:"'throws' declares which checked exceptions a method may propagate, requiring callers to handle them."},
+{t:0,q:"What is the result of String s = null; s.length(); inside a try block?",o:["0","null","NullPointerException","StringException"],a:2,e:"Calling .length() on null throws NullPointerException."},
+{t:0,q:"Which block handles the exception in: try{...} catch(IOException e){...} catch(Exception e){...}?",o:["Always IOException block","Always Exception block","The first matching catch block","Both blocks execute"],a:2,e:"Java uses the first matching catch block. Subclass catches should come before superclass catches."},
+{t:0,q:"Can we rethrow an exception in a catch block?",o:["No","Yes, using 'throw e'","Yes, using 'throws e'","Yes, using 'rethrow e'"],a:1,e:"Inside a catch block, 'throw e' rethrows the caught exception."},
+{t:0,q:"What is the output?\ntry { throw new RuntimeException(); } catch(Exception e) { System.out.print(\"X\"); } System.out.print(\"Y\");",o:["X","Y","XY","Error"],a:2,e:"RuntimeException is caught, 'X' prints; execution continues after try-catch, printing 'Y'."},
+
+// ============================================================
+// TOPIC 1: try-catch-finally (30 Qs)
+// ============================================================
+{t:1,q:"When does the finally block execute?",o:["Only when no exception occurs","Only when exception occurs","Always, whether exception occurs or not","Only when catch block runs"],a:2,e:"The finally block always executes regardless of whether an exception was thrown or caught."},
+{t:1,q:"What is the main use of the finally block?",o:["To throw new exceptions","To handle exceptions","To release resources like closing connections","To return values"],a:2,e:"finally is used to ensure cleanup code (closing files, DB connections) always runs."},
+{t:1,q:"What is the output?\ntry{System.out.print(\"T\");} catch(Exception e){System.out.print(\"C\");} finally{System.out.print(\"F\");}",o:["TF","TCF","T","F"],a:0,e:"No exception, so try('T') runs, catch is skipped, finally('F') always runs → TF."},
+{t:1,q:"What is the output?\ntry{throw new Exception();} catch(Exception e){System.out.print(\"C\");} finally{System.out.print(\"F\");}",o:["CF","F","C","Error"],a:0,e:"Exception thrown → catch('C') runs → finally('F') always runs → CF."},
+{t:1,q:"Can a finally block throw an exception?",o:["No","Yes","Only RuntimeException","Only checked exceptions"],a:1,e:"A finally block can throw any exception, which will suppress the original exception."},
+{t:1,q:"What happens if finally block has a return statement?",o:["Compile error","The try's return is overridden","Both returns execute","finally return is ignored"],a:1,e:"A return in finally overrides any return from try or catch blocks."},
+{t:1,q:"Is the finally block executed when System.exit() is called in try?",o:["Yes always","No","Only if catch is present","Only in Java 11+"],a:1,e:"System.exit() terminates the JVM immediately, so the finally block does NOT execute."},
+{t:1,q:"What is the output?\ntry{return;} finally{System.out.print(\"F\");}",o:["Nothing","F","Error","F then return"],a:1,e:"finally runs even before method returns. 'F' is printed before the return completes."},
+{t:1,q:"Can you have a try-finally without a catch block?",o:["No","Yes","Only in Java 8+","Only for checked exceptions"],a:1,e:"try-finally (without catch) is valid. Useful to ensure cleanup even without exception handling."},
+{t:1,q:"What happens if both catch and finally throw different exceptions?",o:["Both exceptions propagate","The finally exception suppresses the catch exception","The catch exception wins","Compile error"],a:1,e:"If finally throws an exception, it replaces/suppresses any exception from the catch block."},
+{t:1,q:"What is the output?\ntry{System.out.print(\"T\"); throw new Exception();} catch(Exception e){System.out.print(\"C\"); return;} finally{System.out.print(\"F\");}",o:["TC","TCF","TF","CF"],a:1,e:"'T' prints, exception thrown, 'C' prints, return in catch is paused for finally 'F' → TCF."},
+{t:1,q:"Which statement is TRUE about finally?",o:["finally replaces catch","finally always runs except JVM crash/System.exit","finally runs before try","finally runs only on exceptions"],a:1,e:"finally always runs except in cases like System.exit(), infinite loops, or JVM crashes."},
+{t:1,q:"What is the output?\nint x=0; try{x=1;} finally{x=2;} System.out.print(x);",o:["0","1","2","Error"],a:2,e:"try sets x=1, then finally sets x=2. After the block, x is 2."},
+{t:1,q:"Can finally block access variables declared inside try?",o:["Yes always","No, out of scope","Only if declared before try","Only primitives"],a:1,e:"Variables declared inside try are out of scope in finally. Declare them before try to share."},
+{t:1,q:"What happens if an exception occurs in finally?",o:["Original exception is preserved","Original exception is lost","Both exceptions merge","Program continues"],a:1,e:"If finally throws, the original exception from try/catch is lost (suppressed)."},
+{t:1,q:"Is it possible to have multiple finally blocks?",o:["Yes","No, only one finally per try","Yes in Java 9+","Yes with multi-catch"],a:1,e:"Each try block can have at most one finally block."},
+{t:1,q:"What is the output?\ntry{int x=1/0;} catch(ArithmeticException e){System.out.print(\"A\");} finally{System.out.print(\"B\");}",o:["A","B","AB","BA"],a:2,e:"ArithmeticException caught → 'A' → finally → 'B' → AB."},
+{t:1,q:"Where does execution go after the finally block completes normally?",o:["Back to try","Restarts program","Continues after the try-catch-finally construct","Goes to catch again"],a:2,e:"After finally completes, execution continues with the statement after the entire try-catch-finally."},
+{t:1,q:"What is the output?\ntry{System.out.print(1);} finally{System.out.print(2);} System.out.print(3);",o:["123","12","23","132"],a:0,e:"No exception: try prints 1, finally prints 2, then prints 3 → 123."},
+{t:1,q:"Can finally override a thrown exception from catch?",o:["No","Yes, if finally throws an exception","Only checked exceptions","Only RuntimeException"],a:1,e:"If finally throws, it overrides (suppresses) the exception from catch."},
+{t:1,q:"In try-with-resources, when does finally run relative to resource closing?",o:["Before closing","After closing","Same time","finally doesn't run"],a:1,e:"In try-with-resources, resources are closed, then finally (if present) executes."},
+{t:1,q:"What happens when finally contains break inside a loop?",o:["Compile error","Break exits the loop","Finally doesn't execute","Exception thrown"],a:1,e:"A break in finally transfers control out of the loop, which can suppress exceptions."},
+{t:1,q:"Can a finally block be empty?",o:["No","Yes, it's valid but useless","Only in abstract classes","Compiler warns"],a:1,e:"An empty finally block is syntactically valid, though it serves no purpose."},
+{t:1,q:"What is the return value of this method?\nint f(){try{return 1;}finally{return 2;}}",o:["1","2","0","Undefined"],a:1,e:"finally's return 2 overrides try's return 1. The method returns 2."},
+{t:1,q:"The finally block is guaranteed to execute in which scenario?",o:["When System.exit(0) is called","When JVM crashes","When exception is uncaught","All of the above"],a:2,e:"finally executes even for uncaught exceptions (as the JVM unwinds the stack). Not for exit/crash."},
+{t:1,q:"What is the output?\ntry{throw new Error();} catch(Exception e){System.out.print(\"E\");} finally{System.out.print(\"F\");}",o:["EF","F","E","Uncaught Error then F"],a:3,e:"Error is NOT a subclass of Exception. The catch doesn't catch it; finally still runs, then Error propagates."},
+{t:1,q:"Which is true about try-catch-finally order?",o:["catch can come after finally","finally must come last","try is optional","catch is mandatory"],a:1,e:"The syntax requires try first, then catch(es), then finally last."},
+{t:1,q:"What is the output?\ntry{System.out.print(\"A\"); return;} finally{System.out.print(\"B\");}",o:["AB","A","B","BA"],a:0,e:"return in try is paused, finally runs printing 'B', then return completes → AB."},
+{t:1,q:"Which scenario will NOT execute the finally block?",o:["Exception in try","return in catch","System.exit(0) in try","Exception not caught"],a:2,e:"System.exit(0) terminates the JVM immediately without executing the finally block."},
+{t:1,q:"Can you have catch and finally with the same try?",o:["No","Yes","Only Java 8+","Only for checked exceptions"],a:1,e:"A try block can have one or more catch blocks AND a finally block together."},
+
+// ============================================================
+// TOPIC 2: Multiple catch Blocks (30 Qs)
+// ============================================================
+{t:2,q:"When multiple catch blocks are present, which one executes?",o:["All of them","The last one","The first one that matches","A random one"],a:2,e:"Java executes the first catch block whose exception type matches the thrown exception."},
+{t:2,q:"What happens if you put a parent exception catch before a child catch?",o:["Both execute","Compile error: unreachable catch","Runtime exception","Child catch is skipped"],a:1,e:"If a parent catch (e.g., Exception) comes before a child (e.g., IOException), the child is unreachable → compile error."},
+{t:2,q:"What is the correct order for multiple catch blocks?",o:["Any order","Alphabetical","Most specific (child) first, most general (parent) last","General first, specific last"],a:2,e:"Specific (subclass) exceptions must appear before general (superclass) catch blocks."},
+{t:2,q:"Which syntax is valid for catching multiple exceptions in one catch (Java 7+)?",o:["catch(A e, B e)","catch(A | B e)","catch(A & B e)","catch(A, B e)"],a:1,e:"Multi-catch syntax uses the pipe operator: catch(ExceptionA | ExceptionB e)."},
+{t:2,q:"In multi-catch catch(A | B e), is 'e' effectively final?",o:["No","Yes","Only in Java 8+","Only if A and B are unrelated"],a:1,e:"In multi-catch, the variable 'e' is implicitly final and cannot be reassigned."},
+{t:2,q:"What is the output?\ntry{int x=1/0;} catch(NullPointerException e){System.out.print(\"N\");} catch(ArithmeticException e){System.out.print(\"A\");}",o:["NA","A","N","Error"],a:1,e:"ArithmeticException matches the second catch → 'A' is printed."},
+{t:2,q:"Can catch blocks themselves use try-catch?",o:["No","Yes","Only in Java 9","Only for checked exceptions"],a:1,e:"Catch blocks can contain try-catch blocks, enabling nested exception handling."},
+{t:2,q:"What is the output?\ntry{throw new Exception();} catch(RuntimeException e){System.out.print(\"R\");} catch(Exception e){System.out.print(\"E\");}",o:["RE","R","E","Error"],a:2,e:"Exception is not a RuntimeException, so second catch matches → 'E'."},
+{t:2,q:"Is it valid to catch the same exception type twice in the same try?",o:["Yes","No, compile error","Only with multi-catch","Only with different variable names"],a:1,e:"Catching the same exception type twice causes a compile-time error (unreachable catch block)."},
+{t:2,q:"How many catch blocks can a single try have?",o:["1","2","As many as needed","Maximum 10"],a:2,e:"A try block can have unlimited catch blocks."},
+{t:2,q:"What is the output?\ntry{String s=null; s.length();} catch(NullPointerException e){System.out.print(\"N\");} catch(Exception e){System.out.print(\"E\");}",o:["NE","E","N","Error"],a:2,e:"NullPointerException matches first catch → 'N' is printed. Second catch is skipped."},
+{t:2,q:"Which class is parent of both IOException and SQLException?",o:["Throwable","RuntimeException","Exception","Error"],a:2,e:"Both IOException and SQLException extend java.lang.Exception."},
+{t:2,q:"Can we catch Error using a catch(Exception e) block?",o:["Yes","No, Error is not a subclass of Exception","Yes in Java 9+","Only OutOfMemoryError"],a:1,e:"Error and Exception are separate branches under Throwable. catch(Exception) doesn't catch Errors."},
+{t:2,q:"What is wrong with this code?\ncatch(IOException e){} catch(FileNotFoundException e){}",o:["Nothing","FileNotFoundException catch is unreachable since it's subclass of IOException","IOException is unchecked","Both catches run"],a:1,e:"FileNotFoundException extends IOException. Putting IOException first makes FileNotFoundException unreachable."},
+{t:2,q:"In multi-catch, can you catch a parent and child exception?",o:["Yes","No, compile error","Only RuntimeExceptions","Only checked exceptions"],a:1,e:"You cannot have both a parent and its subclass in the same multi-catch — compile error."},
+{t:2,q:"What is the output?\ntry{throw new ArithmeticException();} catch(Exception e){System.out.print(\"E\");} catch(ArithmeticException e){System.out.print(\"A\");}",o:["A","E","EA","Compile error"],a:3,e:"ArithmeticException extends Exception. Placing catch(Exception) before catch(ArithmeticException) causes compile error."},
+{t:2,q:"Can you use instanceof in a catch block to check the actual exception type?",o:["No","Yes","Only for checked exceptions","Only at runtime with reflection"],a:1,e:"You can use instanceof inside catch to check and handle specific subtypes."},
+{t:2,q:"What is the output?\ntry{throw new ArrayIndexOutOfBoundsException();} catch(IndexOutOfBoundsException e){System.out.print(\"I\");}",o:["I","Error","Nothing","Compile error"],a:0,e:"ArrayIndexOutOfBoundsException extends IndexOutOfBoundsException, so it's caught → 'I'."},
+{t:2,q:"Which hierarchy is correct?",o:["RuntimeException → Exception → Throwable","Throwable → Error → Exception","Throwable → Exception → RuntimeException","Exception → Throwable → RuntimeException"],a:2,e:"Correct: Throwable → Exception → RuntimeException."},
+{t:2,q:"In multi-catch (A | B e), can A be a superclass of B?",o:["Yes","No, compile error","Yes in Java 11+","Only for checked exceptions"],a:1,e:"In multi-catch, the exception types must be disjoint — no subclass/superclass relationship allowed."},
+{t:2,q:"What is the output?\ntry{int a[]=new int[2]; a[5]=1;} catch(ArrayIndexOutOfBoundsException e){System.out.print(\"A\");} catch(Exception e){System.out.print(\"E\");}",o:["AE","A","E","Error"],a:1,e:"ArrayIndexOutOfBoundsException matches first catch → 'A'. Second catch skipped."},
+{t:2,q:"Can finally be used without any catch block?",o:["No","Yes, try-finally is valid","Only in Java 8","Only for checked exceptions"],a:1,e:"try-finally without catch is valid and commonly used for cleanup."},
+{t:2,q:"What exception does Integer.parseInt(\"abc\") throw?",o:["NumberFormatException","ParseException","IllegalArgumentException","ClassCastException"],a:0,e:"Integer.parseInt() throws NumberFormatException for invalid input strings."},
+{t:2,q:"Which is true about multiple catch blocks?",o:["All matching catches execute","Only one catch executes","Catches are tried randomly","All catches always execute"],a:1,e:"Only the first matching catch block executes; subsequent catches are skipped."},
+{t:2,q:"What is the output?\ntry{throw new RuntimeException();} catch(RuntimeException|Error e){System.out.print(\"R\");}",o:["R","Compile error","Nothing","Error"],a:0,e:"Multi-catch with RuntimeException|Error is valid and catches the thrown RuntimeException → 'R'."},
+{t:2,q:"Which approach reduces code duplication when handling multiple exceptions the same way?",o:["Multiple catch blocks","Multi-catch (A|B e)","Nested try","Exception chaining"],a:1,e:"Multi-catch catch(A | B e) lets you handle multiple exceptions with one block, reducing duplication."},
+{t:2,q:"What is the output?\ntry{throw new Exception(\"test\");} catch(Exception e){System.out.print(e.getMessage());}",o:["Exception","test","null","Error"],a:1,e:"getMessage() returns 'test', the message passed to the Exception constructor."},
+{t:2,q:"After a catch block handles an exception, does execution return to the try block?",o:["Yes","No, execution continues after the try-catch","Yes, from the beginning","Yes, from where exception occurred"],a:1,e:"After the catch block, execution continues with the statement AFTER the entire try-catch (not back in try)."},
+{t:2,q:"Can we use the same variable name 'e' in different catch blocks?",o:["No","Yes","Only in Java 8+","Only if types differ"],a:1,e:"Each catch block has its own scope, so 'e' can be reused across separate catch blocks."},
+{t:2,q:"What happens when catch(Exception e) is the only catch block?",o:["It only catches checked exceptions","It catches all Exception subtypes (including Runtime)","It catches everything including Error","It catches nothing"],a:1,e:"catch(Exception e) catches all Exception subclasses including RuntimeException, but NOT Error."},
+
+// ============================================================
+// TOPIC 3: try-with-resources (30 Qs)
+// ============================================================
+{t:3,q:"What interface must a resource implement to be used in try-with-resources?",o:["Closeable","AutoCloseable","Serializable","Iterable"],a:1,e:"Resources in try-with-resources must implement java.lang.AutoCloseable (or its subinterface Closeable)."},
+{t:3,q:"In try-with-resources, when is the resource's close() method called?",o:["Only when no exception occurs","Only when exception occurs","Always at end of try block","Manually by programmer"],a:2,e:"close() is automatically called at the end of the try block, regardless of exceptions."},
+{t:3,q:"What is the output?\ntry(AutoCloseable r = () -> System.out.print(\"C\")){}",o:["Nothing","C","Error","Compile error"],a:1,e:"The lambda implements AutoCloseable. close() (prints 'C') is called automatically at end of try."},
+{t:3,q:"Can you declare multiple resources in try-with-resources?",o:["No","Yes, separated by semicolons","Yes, separated by commas","Only in Java 9+"],a:1,e:"Multiple resources: try(R1 a = ...; R2 b = ...) { } — closed in reverse declaration order."},
+{t:3,q:"In what order are multiple resources closed in try-with-resources?",o:["Same as declared","Reverse of declaration order","Alphabetical","Random"],a:1,e:"Resources are closed in reverse order of their declaration (LIFO)."},
+{t:3,q:"What Java version introduced try-with-resources?",o:["Java 5","Java 6","Java 7","Java 8"],a:2,e:"try-with-resources was introduced in Java 7 as part of Project Coin."},
+{t:3,q:"Can try-with-resources have a catch block?",o:["No","Yes","Only in Java 9+","Only for checked exceptions"],a:1,e:"try-with-resources can have catch and finally blocks just like regular try."},
+{t:3,q:"What are suppressed exceptions in try-with-resources?",o:["Exceptions ignored by JVM","Exceptions from close() when another exception is already propagating","Checked exceptions","Exceptions in finally"],a:1,e:"If both the try body and close() throw, the close() exception is suppressed; accessible via getSuppressed()."},
+{t:3,q:"Which method retrieves suppressed exceptions?",o:["getSuppressedException()","getCause()","getSuppressed()","getHidden()"],a:2,e:"Throwable.getSuppressed() returns an array of suppressed exceptions."},
+{t:3,q:"Can try-with-resources be used without catch or finally?",o:["No","Yes","Only if AutoCloseable is used","Only in Java 9"],a:1,e:"The try keyword alone (with resource) is sufficient; catch/finally are optional."},
+{t:3,q:"What does AutoCloseable.close() declare it can throw?",o:["IOException","RuntimeException","Exception","Throwable"],a:2,e:"AutoCloseable.close() is declared as 'throws Exception', the most general checked exception."},
+{t:3,q:"In Java 9+, can you use effectively final variables in try-with-resources?",o:["No","Yes","Only local variables","Only for Closeable"],a:1,e:"Java 9 allows effectively final variables (declared outside try) to be used as resources."},
+{t:3,q:"What is the advantage of try-with-resources over finally for closing?",o:["Faster","Less code and handles suppressed exceptions","Works without AutoCloseable","Resources never throw"],a:1,e:"try-with-resources is cleaner, less error-prone, and properly handles suppressed exceptions."},
+{t:3,q:"What happens if the resource constructor throws an exception in try-with-resources?",o:["close() is called then exception propagates","close() is NOT called (resource never opened)","Exception is suppressed","Compile error"],a:1,e:"If the resource constructor fails, the resource was never created, so close() is not called."},
+{t:3,q:"Which of these correctly implements AutoCloseable?",o:["class R{void close(){}}","class R implements AutoCloseable{public void close(){}}","class R extends AutoCloseable{public void close(){}}","interface R{void close(){}}"],a:1,e:"AutoCloseable requires implementing the close() method publicly."},
+{t:3,q:"Can a resource be null in try-with-resources?",o:["Yes, null is handled safely","No, NullPointerException is thrown","Yes in Java 9+","No, compile error"],a:0,e:"Java 9+ handles null resources gracefully (close() is not called on null). Java 7/8 would NPE."},
+{t:3,q:"What is the output order for:\ntry(R r=new R()){System.out.print(\"T\");} — where R.close() prints \"C\"",o:["CT","TC","T","C"],a:1,e:"try body executes first ('T'), then close() runs automatically ('C') → TC."},
+{t:3,q:"Does Closeable extend AutoCloseable?",o:["No","Yes","They are the same interface","AutoCloseable extends Closeable"],a:1,e:"java.io.Closeable extends java.lang.AutoCloseable and restricts close() to throw only IOException."},
+{t:3,q:"What is the scope of a resource declared in try-with-resources?",o:["Entire class","Inside the try block only","try and catch and finally","Entire method"],a:1,e:"Resources declared in try(...) are scoped to the try block (and its associated catch/finally)."},
+{t:3,q:"Can you reassign a resource variable inside try-with-resources block?",o:["Yes","No, it's effectively final","Only for Closeable","Only with casting"],a:1,e:"Resource variables in try-with-resources are implicitly final and cannot be reassigned."},
+{t:3,q:"Which is better for file handling?",o:["try{f=new File();} finally{f.close();}","try(File f=new File()){}","Both are same","Neither, use streams"],a:1,e:"try-with-resources is safer because it handles close() automatically and manages suppressed exceptions."},
+{t:3,q:"What exception does BufferedReader.close() declare?",o:["Exception","RuntimeException","IOException","AutoCloseException"],a:2,e:"BufferedReader implements Closeable, and close() declares throws IOException."},
+{t:3,q:"In try-with-resources with multiple resources, if both throw during close, what happens?",o:["Both propagate","First is suppressed, second propagates","First propagates, second is suppressed","Neither propagates"],a:2,e:"The first closed (last declared) resource's exception propagates; later exceptions are suppressed."},
+{t:3,q:"Can try-with-resources work with database Connection objects?",o:["No","Yes, if Connection implements AutoCloseable","Only JDBC 4.1+","Only with wrapper"],a:1,e:"JDBC 4.1+ Connection implements AutoCloseable, enabling try-with-resources."},
+{t:3,q:"What is the primary purpose of try-with-resources?",o:["Exception suppression","Automatic resource management","Faster execution","Multi-threading"],a:1,e:"try-with-resources ensures resources are automatically closed, preventing resource leaks."},
+{t:3,q:"Which Java class is commonly used with try-with-resources for file reading?",o:["FileDescriptor","BufferedReader","FilePermission","FileFilter"],a:1,e:"BufferedReader (wrapping FileReader) is a common AutoCloseable used with try-with-resources."},
+{t:3,q:"Can you open a resource in try-with-resources that was already opened?",o:["No","Yes","Yes, creates a second handle","Only for streams"],a:1,e:"You can use an already-opened resource in try-with-resources; close() will be called at end."},
+{t:3,q:"What method does AutoCloseable require you to implement?",o:["dispose()","release()","close()","shutdown()"],a:2,e:"AutoCloseable requires exactly one method: public void close() throws Exception."},
+{t:3,q:"If resource close() throws and catch block also throws, which propagates?",o:["close() exception","catch() exception","Both","Neither"],a:1,e:"The catch block's exception propagates; close() exception during catch is suppressed."},
+{t:3,q:"Are resources in try-with-resources closed before or after catch block?",o:["After catch","Before catch","At same time","Depends on exception"],a:1,e:"Resources are closed after the try body but BEFORE any catch or finally blocks execute."},
+
+// ============================================================
+// TOPIC 4: Checked Exceptions (30 Qs)
+// ============================================================
+{t:4,q:"What is a checked exception?",o:["Exception checked at runtime","Exception checked at compile time","Subclass of RuntimeException","Exception in java.lang"],a:1,e:"Checked exceptions are verified at compile time. You must handle or declare them with throws."},
+{t:4,q:"Which of these is a checked exception?",o:["NullPointerException","ArrayIndexOutOfBoundsException","IOException","ClassCastException"],a:2,e:"IOException is a checked exception. The others are unchecked (RuntimeException subclasses)."},
+{t:4,q:"How must a method handle a checked exception?",o:["Ignore it","Catch it or declare throws","Convert to unchecked","Use System.exit"],a:1,e:"A method must either catch the checked exception with try-catch or declare it with throws."},
+{t:4,q:"What happens if you don't handle a checked exception?",o:["Program terminates","Runtime error","Compile-time error","Warning only"],a:2,e:"Uncaught checked exceptions cause a compile-time error."},
+{t:4,q:"Which is NOT a checked exception?",o:["FileNotFoundException","IOException","ClassNotFoundException","NullPointerException"],a:3,e:"NullPointerException extends RuntimeException, making it unchecked."},
+{t:4,q:"What class do most checked exceptions extend?",o:["Throwable","RuntimeException","Exception","Error"],a:2,e:"Checked exceptions extend java.lang.Exception (but NOT RuntimeException)."},
+{t:4,q:"What keyword declares that a method may throw a checked exception?",o:["throw","throws","declare","exception"],a:1,e:"The 'throws' keyword in a method signature declares which checked exceptions it may propagate."},
+{t:4,q:"Can you catch a checked exception that is never thrown?",o:["Yes","No, compile error","Yes in Java 8+","Only with multi-catch"],a:1,e:"If a checked exception can never be thrown in a try block, catching it causes a compile error (except for Exception)."},
+{t:4,q:"Which is checked: IOException or ArithmeticException?",o:["Both","Neither","IOException","ArithmeticException"],a:2,e:"IOException is checked; ArithmeticException extends RuntimeException (unchecked)."},
+{t:4,q:"What is FileNotFoundException a subclass of?",o:["RuntimeException","IOException","Exception directly","Error"],a:1,e:"FileNotFoundException extends IOException, which is a checked exception."},
+{t:4,q:"Can a method declare checked exceptions it never actually throws?",o:["No","Yes","Only in interfaces","Only abstract methods"],a:1,e:"Declaring a checked exception in 'throws' is allowed even if the method never throws it."},
+{t:4,q:"What exception does Thread.sleep() throw?",o:["IOException","RuntimeException","InterruptedException","SleepException"],a:2,e:"Thread.sleep() throws InterruptedException, which is a checked exception."},
+{t:4,q:"Which is a checked exception from java.sql?",o:["DataException","SQLRuntimeException","SQLException","DatabaseException"],a:2,e:"java.sql.SQLException is a checked exception for database access errors."},
+{t:4,q:"If a method overrides another, can it throw more checked exceptions?",o:["Yes","No, it can only throw same or fewer checked exceptions","Only RuntimeExceptions","Only if superclass method has no throws"],a:1,e:"Overriding methods cannot throw new or broader checked exceptions than the superclass method."},
+{t:4,q:"What is CloneNotSupportedException?",o:["Unchecked exception","Checked exception","Error","RuntimeException"],a:1,e:"CloneNotSupportedException is a checked exception thrown by Object.clone()."},
+{t:4,q:"Which of these methods throws a checked exception?",o:["Math.abs()","System.out.println()","new FileReader(\"f.txt\")","Integer.parseInt(\"1\")"],a:2,e:"FileReader constructor throws FileNotFoundException (checked). The others don't throw checked exceptions."},
+{t:4,q:"Can an interface method declare checked exceptions?",o:["No","Yes","Only abstract interfaces","Only default methods"],a:1,e:"Interface method signatures can declare checked exceptions in their throws clause."},
+{t:4,q:"What is ParseException?",o:["Unchecked exception","Checked exception","Error","RuntimeException"],a:1,e:"java.text.ParseException is a checked exception thrown during parsing operations."},
+{t:4,q:"Why were checked exceptions designed?",o:["For performance","To force programmers to handle anticipated failure conditions","To replace error codes","For thread safety"],a:1,e:"Checked exceptions force API users to explicitly handle known, recoverable error conditions."},
+{t:4,q:"What does 'handle or declare' rule mean?",o:["Log the exception","Either catch with try-catch or declare with throws","Convert to Runtime","Both handle and declare"],a:1,e:"The 'handle or declare' rule requires that checked exceptions be caught or propagated via throws."},
+{t:4,q:"Can you wrap a checked exception in a RuntimeException?",o:["No","Yes, to avoid declaring checked exceptions","Only in Java 8+","Only with try-catch"],a:1,e:"Wrapping checked exceptions in RuntimeException is common to avoid the handle-or-declare requirement."},
+{t:4,q:"Which exception is thrown by Class.forName()?",o:["RuntimeException","ClassNotFoundException","NoSuchClassException","ClassCastException"],a:1,e:"Class.forName() throws ClassNotFoundException (checked) if the class isn't found."},
+{t:4,q:"What is the advantage of checked exceptions?",o:["Faster code","Compiler enforces error handling for anticipated failures","Less boilerplate","Better performance"],a:1,e:"Checked exceptions make failure scenarios explicit in API contracts, enforced by the compiler."},
+{t:4,q:"What is MalformedURLException a subclass of?",o:["RuntimeException","Exception","IOException","URLException"],a:2,e:"MalformedURLException extends IOException (checked exception)."},
+{t:4,q:"Can a lambda expression throw a checked exception?",o:["Yes, always","Yes, only if the functional interface declares it","No","Only in Java 11"],a:1,e:"A lambda can only throw checked exceptions if the target functional interface's method declares them."},
+{t:4,q:"What checked exception does ObjectInputStream.readObject() throw?",o:["IOException only","ClassNotFoundException only","IOException and ClassNotFoundException","RuntimeException"],a:2,e:"readObject() throws both IOException and ClassNotFoundException (both checked)."},
+{t:4,q:"Is java.lang.Exception itself checked?",o:["No, it's abstract","Yes","No, it's RuntimeException","Depends on context"],a:1,e:"java.lang.Exception (excluding RuntimeException subtree) is checked."},
+{t:4,q:"Can you catch Exception to handle both checked and unchecked exceptions?",o:["No","Yes, but not Errors","Yes, including Errors","Only unchecked"],a:1,e:"catch(Exception e) catches all Exception subclasses: checked, RuntimeException, but NOT Error."},
+{t:4,q:"What exception does InputStream.read() throw?",o:["RuntimeException","IOException","ReadException","StreamException"],a:1,e:"InputStream.read() throws IOException, a checked exception."},
+{t:4,q:"What is the checked exception thrown when reflection fails?",o:["ReflectionException","InvocationTargetException","IllegalAccessException","Both B and C"],a:3,e:"Reflection can throw both InvocationTargetException and IllegalAccessException (both checked)."},
+
+// ============================================================
+// TOPIC 5: Unchecked Exceptions (30 Qs)
+// ============================================================
+{t:5,q:"What is an unchecked exception?",o:["Exception that never occurs","Exception that doesn't need compile-time handling","Exception that can't be caught","Exception in finally"],a:1,e:"Unchecked exceptions (RuntimeException subclasses) don't require compile-time handling."},
+{t:5,q:"Which class is the root of all unchecked exceptions?",o:["Exception","Throwable","RuntimeException","Error"],a:2,e:"java.lang.RuntimeException is the root of all unchecked exceptions."},
+{t:5,q:"Which of these is an unchecked exception?",o:["IOException","SQLException","ClassNotFoundException","NullPointerException"],a:3,e:"NullPointerException extends RuntimeException (unchecked). Others are checked."},
+{t:5,q:"Do you need to declare unchecked exceptions with 'throws'?",o:["Yes, always","No, it's optional","Yes, in Java 8+","Only for RuntimeException directly"],a:1,e:"Unchecked exceptions don't need to be declared with throws, though you can optionally do so."},
+{t:5,q:"What causes ArrayIndexOutOfBoundsException?",o:["Array is null","Accessing index outside array bounds","Array has wrong type","Array is empty"],a:1,e:"ArrayIndexOutOfBoundsException is thrown when accessing an array index that is negative or >= length."},
+{t:5,q:"Which exception is thrown by (String)someObject when someObject is Integer?",o:["InvalidCastException","ClassCastException","CastException","IllegalArgumentException"],a:1,e:"ClassCastException is thrown when casting an object to an incompatible type."},
+{t:5,q:"What is StackOverflowError?",o:["Checked exception","Unchecked exception / Error","Compile error","Warning"],a:1,e:"StackOverflowError is an Error (not Exception) thrown when the call stack overflows, typically from infinite recursion."},
+{t:5,q:"What causes NumberFormatException?",o:["Math overflow","Parsing invalid numeric string","Array of numbers","Null number"],a:1,e:"NumberFormatException is thrown when a string can't be converted to a number (e.g., Integer.parseInt(\"abc\"))."},
+{t:5,q:"Which is thrown by dividing an integer by zero?",o:["DivisionByZeroException","ZeroException","ArithmeticException","MathException"],a:2,e:"ArithmeticException (/ by zero) is thrown for integer division by zero."},
+{t:5,q:"What is OutOfMemoryError?",o:["RuntimeException","Checked Exception","Error subclass","IOException"],a:2,e:"OutOfMemoryError extends Error (not Exception). It's thrown when the JVM runs out of heap space."},
+{t:5,q:"Can unchecked exceptions be caught?",o:["No","Yes, with catch block","Only with finally","Only in Java 8+"],a:1,e:"Despite not requiring handling, unchecked exceptions can and often should be caught."},
+{t:5,q:"What is IllegalArgumentException used for?",o:["Null arguments","Illegal method argument values","Missing arguments","Type mismatch"],a:1,e:"IllegalArgumentException signals that a method received an argument with an inappropriate value."},
+{t:5,q:"Which exception indicates a programming bug rather than recoverable situation?",o:["IOException","Checked exceptions","Unchecked exceptions","FileNotFoundException"],a:2,e:"Unchecked exceptions typically indicate programming errors (bugs) like null dereference, bad index."},
+{t:5,q:"What exception is thrown by accessing a null array?",o:["ArrayException","NullPointerException","ArrayNullException","IllegalStateException"],a:1,e:"Accessing or using a null array reference throws NullPointerException."},
+{t:5,q:"What is IllegalStateException?",o:["Checked exception","Unchecked exception","Error","Cannot be thrown"],a:1,e:"IllegalStateException (RuntimeException subclass) signals a method was called at an inappropriate time."},
+{t:5,q:"Which exception is thrown by an Iterator after the underlying collection is modified?",o:["ModificationException","ConcurrentModificationException","IteratorException","IllegalStateException"],a:1,e:"ConcurrentModificationException (unchecked) is thrown during iteration if the collection is structurally modified."},
+{t:5,q:"Does the compiler force you to handle RuntimeException?",o:["Yes","No","Only for subclasses","Only in try blocks"],a:1,e:"The compiler does NOT force handling of RuntimeException or its subclasses."},
+{t:5,q:"What exception does assert fail throw?",o:["AssertionException","AssertError","AssertionError","RuntimeException"],a:2,e:"A failed assert statement throws java.lang.AssertionError (an Error, not Exception)."},
+{t:5,q:"Which exception is thrown when calling a method that's not found via reflection?",o:["MethodNotFoundException","NoSuchMethodException","RuntimeException","IllegalAccessException"],a:1,e:"NoSuchMethodException is a checked exception, NOT unchecked. Common confusion!"},
+{t:5,q:"What is UnsupportedOperationException typically used for?",o:["Null operations","Operations not implemented","System operations","Thread operations"],a:1,e:"UnsupportedOperationException (unchecked) signals a requested operation is not supported (e.g., in unmodifiable collections)."},
+{t:5,q:"Which exception is thrown when a thread is interrupted?",o:["ThreadException","InterruptedException","RuntimeException","InterruptError"],a:1,e:"InterruptedException is actually CHECKED, not unchecked. A common trick question!"},
+{t:5,q:"What is ExceptionInInitializerError?",o:["Checked exception","Unchecked Error for static initializer failure","RuntimeException","IOException"],a:1,e:"ExceptionInInitializerError (Error subclass) is thrown when a static initializer throws an exception."},
+{t:5,q:"Can you create a subclass of RuntimeException?",o:["No","Yes","Only in Java 8+","Only in same package"],a:1,e:"You can extend RuntimeException to create custom unchecked exceptions."},
+{t:5,q:"Which is thrown when JVM can't find a class at runtime?",o:["ClassNotFoundException","NoClassDefFoundError","ClassError","LoadException"],a:1,e:"NoClassDefFoundError (Error, unchecked) is thrown at runtime; ClassNotFoundException (checked) is thrown by Class.forName()."},
+{t:5,q:"What is the difference between Error and RuntimeException?",o:["No difference","Errors are typically unrecoverable JVM problems; RuntimeException are recoverable bugs","Errors are checked","RuntimeException requires throws"],a:1,e:"Errors represent serious JVM failures (OutOfMemory, StackOverflow). RuntimeExceptions represent programming bugs."},
+{t:5,q:"Which exception is thrown by a failed type cast in generics?",o:["GenericCastException","ClassCastException","TypeException","CastException"],a:1,e:"ClassCastException is thrown when an incompatible cast is performed at runtime."},
+{t:5,q:"What is IndexOutOfBoundsException?",o:["Checked exception","Unchecked exception parent of Array/String index exceptions","Error","Only for arrays"],a:1,e:"IndexOutOfBoundsException (RuntimeException) is the parent of ArrayIndexOutOfBoundsException and StringIndexOutOfBoundsException."},
+{t:5,q:"Can NullPointerException be thrown explicitly?",o:["No","Yes, with 'throw new NullPointerException()'","Only by JVM","Only for null checks"],a:1,e:"NullPointerException (and any exception) can be thrown explicitly with 'throw new NullPointerException()'."},
+{t:5,q:"What makes a good case for throwing IllegalArgumentException?",o:["File not found","Invalid method parameter values","Network error","Database error"],a:1,e:"IllegalArgumentException is appropriate when method preconditions on parameters are violated."},
+{t:5,q:"Which exception is thrown when Integer.MAX_VALUE + 1 is computed?",o:["OverflowException","ArithmeticException","No exception, wraps around","IntegerException"],a:2,e:"Java integer arithmetic wraps around silently with no exception. No exception is thrown."},
+
+// ============================================================
+// TOPIC 6: Custom Exceptions (30 Qs)
+// ============================================================
+{t:6,q:"To create a checked custom exception, extend which class?",o:["RuntimeException","Throwable","Exception","Error"],a:2,e:"Extending Exception (but not RuntimeException) creates a checked custom exception."},
+{t:6,q:"To create an unchecked custom exception, extend which class?",o:["Exception","Error","RuntimeException","Throwable"],a:2,e:"Extending RuntimeException creates an unchecked custom exception."},
+{t:6,q:"What is the minimum requirement for a custom exception class?",o:["Override getMessage()","Override toString()","Extend Exception or RuntimeException","Add constructors"],a:2,e:"The minimum requirement is to extend Exception or one of its subclasses."},
+{t:6,q:"Which constructor should a custom exception provide for message support?",o:["Default only","public MyEx(String msg){super(msg);}","public MyEx(){this.msg=msg;}","No constructors needed"],a:1,e:"Calling super(msg) passes the message to the parent class, enabling getMessage()."},
+{t:6,q:"What is exception chaining in custom exceptions?",o:["Multiple catch blocks","Wrapping cause: new MyEx(msg, cause)","Sequential throws","Nested custom exceptions"],a:1,e:"Exception chaining: new MyException(message, cause) preserves the original cause."},
+{t:6,q:"What does super(message, cause) do in a custom exception?",o:["Sets only message","Sets only cause","Sets both message and cause via Throwable constructor","Creates a new exception"],a:2,e:"super(message, cause) initializes both the message and the cause in the parent Throwable."},
+{t:6,q:"Can a custom exception have additional fields?",o:["No","Yes","Only static fields","Only String fields"],a:1,e:"Custom exceptions can have additional fields (error codes, data) to carry more context."},
+{t:6,q:"What naming convention should custom exceptions follow?",o:["Start with 'My'","End with 'Exception' or 'Error'","All caps","Start with 'Custom'"],a:1,e:"By convention, custom exception names end with 'Exception' (checked) or 'Error' (for errors)."},
+{t:6,q:"When should you create a custom exception?",o:["Always","When standard exceptions don't convey enough domain meaning","Never","Only for performance"],a:1,e:"Custom exceptions are justified when they provide clearer domain-specific meaning over standard exceptions."},
+{t:6,q:"How do you throw a custom exception?",o:["throw CustomException","throw new CustomException()","throws CustomException","raise CustomException"],a:1,e:"Throw any exception with 'throw new ExceptionType()' — including custom ones."},
+{t:6,q:"What is the output?\nclass E extends Exception{E(String m){super(m);}}\ntry{throw new E(\"X\");}catch(E e){System.out.print(e.getMessage());}",o:["E","null","X","Error"],a:2,e:"getMessage() returns 'X' — the message passed to the constructor via super(m)."},
+{t:6,q:"Can a custom exception override getMessage()?",o:["No","Yes","Only in Java 8","Only if extending Exception"],a:1,e:"Any method can be overridden in custom exceptions, including getMessage() for custom formatting."},
+{t:6,q:"Can custom exceptions be serialized?",o:["No","Yes, if they implement Serializable","They always are","Only checked ones"],a:1,e:"Custom exceptions should implement Serializable (Exception does, but custom fields need serialVersionUID)."},
+{t:6,q:"What is serialVersionUID in custom exceptions?",o:["Version of Java","Unique ID for serialization compatibility","Exception error code","Hash code"],a:1,e:"serialVersionUID ensures serialization compatibility across different versions of the class."},
+{t:6,q:"Can you have a hierarchy of custom exceptions?",o:["No","Yes","Only 2 levels deep","Only unchecked"],a:1,e:"Custom exception hierarchies are common: e.g., AppException → DatabaseException → ConnectionException."},
+{t:6,q:"What is best practice for custom exception constructors?",o:["Provide only default constructor","Provide constructors mirroring Exception (default, message, cause, message+cause)","Only message constructor","No constructors"],a:1,e:"Best practice: provide all 4 Exception constructors for maximum flexibility."},
+{t:6,q:"Can a custom exception class be abstract?",o:["No","Yes","Only checked ones","Only if extending Error"],a:1,e:"Custom exception classes can be abstract, useful as base classes for exception hierarchies."},
+{t:6,q:"What is the benefit of including an error code in custom exceptions?",o:["Faster execution","Enables programmatic error handling","Required by Java","Better logging"],a:1,e:"Error codes in custom exceptions allow programmatic branching on specific error types."},
+{t:6,q:"Which is correct for a custom checked exception?",o:["class CE extends RuntimeException{}","class CE extends Exception{}","class CE implements Exception{}","class CE throws Exception{}"],a:1,e:"extend Exception (not RuntimeException) for a checked custom exception."},
+{t:6,q:"Can you catch a base custom exception to handle all subtypes?",o:["No","Yes","Only if they're checked","Only at compile time"],a:1,e:"Catching a base custom exception class catches all its subclass exceptions as well."},
+{t:6,q:"What is 'throw new InsufficientFundsException(amount)' an example of?",o:["Built-in exception","Custom domain exception","Error","Unchecked exception necessarily"],a:1,e:"InsufficientFundsException is a custom domain-specific exception carrying business context."},
+{t:6,q:"Should a custom exception for a library be checked or unchecked?",o:["Always checked","Always unchecked","Depends: API-level checked; programming bugs unchecked","No preference"],a:2,e:"Library design: checked for recoverable conditions callers should handle; unchecked for programming errors."},
+{t:6,q:"Can a custom exception implement multiple interfaces?",o:["No","Yes","Only Serializable","Only Marker interfaces"],a:1,e:"Custom exceptions (like any class) can implement multiple interfaces."},
+{t:6,q:"What is the output?\nclass E extends RuntimeException{}\ntry{throw new E();}catch(RuntimeException e){System.out.print(\"R\");}",o:["Compile error","R","E","Nothing"],a:1,e:"E extends RuntimeException, so it's caught by catch(RuntimeException e) → 'R'."},
+{t:6,q:"What is the getCause() method used for in custom exceptions?",o:["Get error code","Get original wrapped exception","Get stack trace","Get class name"],a:1,e:"getCause() returns the Throwable that caused this exception, set via the cause constructor."},
+{t:6,q:"Is it good practice to catch Exception to call a custom exception?",o:["Yes always","Only when wrapping exceptions in custom ones","Never","Only for checked"],a:1,e:"Catching Exception to wrap it in a domain-specific custom exception is a valid and common pattern."},
+{t:6,q:"Can a custom exception class have static methods?",o:["No","Yes","Only factory methods","Only in Java 8+"],a:1,e:"Custom exception classes can have static methods, like factory methods for common scenarios."},
+{t:6,q:"What does the 'cause' in a custom exception help with?",o:["Better performance","Root cause analysis and exception chaining","Serialization","Thread safety"],a:1,e:"The cause field enables root cause analysis — you can trace back through the chain to the original problem."},
+{t:6,q:"Which call correctly sets the cause of a custom exception?",o:["new MyEx(cause)","new MyEx(msg, cause)","super(msg); setCause(cause);","this.cause = cause"],a:1,e:"new MyEx(msg, cause) uses a constructor that calls super(msg, cause), setting both."},
+{t:6,q:"Can you add a custom exception in a catch block of a library exception?",o:["No","Yes, to add domain context","Only in Java 9+","Only for unchecked"],a:1,e:"You can catch a library exception and throw a custom domain exception wrapping it (exception translation)."},
+
+// ============================================================
+// TOPIC 7: Nested try-catch (30 Qs)
+// ============================================================
+{t:7,q:"What is a nested try-catch?",o:["try inside catch","try inside another try block","Multiple catch blocks","try with finally"],a:1,e:"A nested try-catch is a try-catch block placed inside another try, catch, or finally block."},
+{t:7,q:"Is it valid to have a try block inside a catch block?",o:["No","Yes","Only Java 9+","Only unchecked exceptions"],a:1,e:"A try block inside a catch block is perfectly valid Java."},
+{t:7,q:"What is the output?\ntry{try{throw new Exception();}catch(Exception e){System.out.print(\"I\");}} catch(Exception e){System.out.print(\"O\");}",o:["O","I","IO","Error"],a:1,e:"Inner exception is caught by inner catch → 'I'. Outer catch is not reached."},
+{t:7,q:"When is an outer catch reached from a nested try?",o:["Always","When inner exception isn't caught by inner catch","Never","Only for checked exceptions"],a:1,e:"If the inner catch doesn't handle the exception (or rethrows), it propagates to outer catch."},
+{t:7,q:"What is the output?\ntry{try{int x=1/0;}catch(NullPointerException e){System.out.print(\"N\");}}catch(ArithmeticException e){System.out.print(\"A\");}",o:["N","A","NA","Error"],a:1,e:"Inner catch expects NullPointerException but ArithmeticException is thrown; propagates to outer catch → 'A'."},
+{t:7,q:"Can you have a try-catch inside a finally block?",o:["No","Yes","Only Java 8","Only checked exceptions"],a:1,e:"try-catch inside finally is valid and sometimes necessary to handle exceptions from close() operations."},
+{t:7,q:"What is the maximum nesting depth for try-catch?",o:["2","5","No limit","10"],a:2,e:"There is no language-imposed limit on nesting try-catch blocks, though deep nesting reduces readability."},
+{t:7,q:"What is the output?\ntry{try{throw new RuntimeException();}finally{System.out.print(\"F\");}}catch(RuntimeException e){System.out.print(\"R\");}",o:["FR","RF","F","R"],a:0,e:"Inner finally 'F' runs (no inner catch), then outer catch 'R' → FR."},
+{t:7,q:"When would you use nested try-catch?",o:["To avoid compilation","When different sections need different exception handling","Always","Only for performance"],a:1,e:"Nested try-catch is useful when different sections of code need independent exception handling."},
+{t:7,q:"Can the inner catch access the outer try's variable?",o:["No, different scope","Yes, if declared in outer scope","Only final variables","Only primitives"],a:1,e:"Variables declared in the outer scope are accessible in the inner try-catch."},
+{t:7,q:"What is the output?\ntry{System.out.print(\"A\"); try{System.out.print(\"B\");}finally{System.out.print(\"C\");} System.out.print(\"D\");}catch(Exception e){}",o:["ABCD","ABC","AB","ABD"],a:0,e:"All print statements execute normally: A, B, C (finally), D → ABCD."},
+{t:7,q:"If an inner finally throws, where does execution go?",o:["Inner catch","Outer catch","Program terminates","Continues normally"],a:1,e:"Exception from inner finally propagates to the outer try-catch if unhandled."},
+{t:7,q:"Can nested try-catch improve code clarity?",o:["Always","Sometimes, but deep nesting reduces readability","Never","Only for checked exceptions"],a:1,e:"While sometimes necessary, deeply nested try-catch reduces readability and should be refactored."},
+{t:7,q:"What is the output?\ntry{try{throw new Exception();}catch(Exception e){System.out.print(\"I\"); throw e;}}catch(Exception e){System.out.print(\"O\");}",o:["I","O","IO","Error"],a:2,e:"Inner catch prints 'I', rethrows → outer catch prints 'O' → IO."},
+{t:7,q:"Are inner try-catch variables visible in the outer catch?",o:["Yes","No, inner variables are out of scope","Only finals","Only in Java 8+"],a:1,e:"Variables declared inside an inner try are scoped to that block and not visible outside."},
+{t:7,q:"Can a catch block contain another catch block directly (without try)?",o:["Yes","No, catch needs a try","Only in Java 11","Yes with multi-catch"],a:1,e:"A standalone catch block cannot exist; every catch must be associated with a try."},
+{t:7,q:"What is the output?\ntry{try{System.out.print(1);}catch(Exception e){System.out.print(2);} System.out.print(3);}catch(Exception e){System.out.print(4);}",o:["13","123","1234","14"],a:0,e:"No exception: inner try prints 1, inner catch skipped, then 3 → 13."},
+{t:7,q:"Can you use try-with-resources in a nested try?",o:["No","Yes","Only outer try","Only inner try"],a:1,e:"try-with-resources can be used at any nesting level, including in nested try blocks."},
+{t:7,q:"What happens to variables declared in outer try inside nested try?",o:["They're inaccessible","They're accessible (same method scope)","They require final keyword","Undefined behavior"],a:1,e:"Variables in outer try are in the same method scope and accessible in nested try blocks."},
+{t:7,q:"What is the output?\ntry{try{throw new Error();}catch(Exception e){System.out.print(\"C\");}}catch(Error e){System.out.print(\"E\");}",o:["C","E","CE","Error propagates"],a:1,e:"Error is NOT caught by catch(Exception) in inner block; propagates to outer catch(Error) → 'E'."},
+{t:7,q:"Is having 5 levels of nested try-catch recommended?",o:["Yes, for better handling","No, it should be refactored","Yes in Java 8+","Depends on JVM"],a:1,e:"Deep nesting indicates complex control flow; refactor with helper methods or different design."},
+{t:7,q:"In nested try-catch, which finally runs first?",o:["Outer finally","Inner finally","Simultaneously","Depends on exception"],a:1,e:"Inner finally always runs before outer finally as the JVM unwinds from innermost to outermost."},
+{t:7,q:"What is the output?\ntry{try{throw new Exception();}finally{System.out.print(\"A\");}}finally{System.out.print(\"B\");}",o:["AB","BA","A","B"],a:0,e:"Exception thrown, inner finally 'A' runs, then outer finally 'B' → AB. Exception propagates (unhandled)."},
+{t:7,q:"Can a method with nested try-catch declare checked exceptions?",o:["No","Yes","Only outer exceptions","Only inner exceptions"],a:1,e:"A method can declare any checked exceptions regardless of how try-catch is structured inside."},
+{t:7,q:"What exception propagates if inner catch throws a new exception?",o:["Original inner exception","New exception from catch","Both","Neither"],a:1,e:"If inner catch throws a new exception, that new exception propagates (original is lost unless chained)."},
+{t:7,q:"What is the output?\ntry{try{}finally{throw new RuntimeException();}}catch(RuntimeException e){System.out.print(\"R\");}",o:["Nothing","R","Error","Compile error"],a:1,e:"Inner finally throws RuntimeException, outer catch catches it → 'R'."},
+{t:7,q:"Can nested try-catch help with transaction-like rollback logic?",o:["No","Yes, inner try for operation, outer try for rollback","Only with databases","Only in Java EE"],a:1,e:"Nested try-catch can implement try operation in inner try, and rollback/cleanup in outer catch."},
+{t:7,q:"What is the output?\ntry{try{throw new Exception();}catch(Exception e){System.out.print(\"1\");}finally{System.out.print(\"2\");}}catch(Exception e){System.out.print(\"3\");}System.out.print(\"4\");",o:["124","1234","14","24"],a:0,e:"Inner catch '1', inner finally '2', outer catch skipped (inner handled it), then '4' → 124."},
+{t:7,q:"Which is true about exception propagation in nested try?",o:["Inner exceptions always propagate out","Exceptions propagate outward only if not caught at inner level","All exceptions go to outer catch","Exceptions don't propagate"],a:1,e:"Exceptions propagate outward only when not caught at the current level."},
+{t:7,q:"Can variables modified in inner try be seen in outer catch?",o:["No, different scope","Yes, if declared before outer try","Only primitives","Only finals"],a:1,e:"Variables declared before the outer try (in method scope) retain their values and are accessible in outer catch."},
+
+// ============================================================
+// TOPIC 8: Working with Infinity (30 Qs)
+// ============================================================
+{t:8,q:"What is the result of 10.0 / 0.0 in Java?",o:["ArithmeticException","NaN","Infinity","0"],a:2,e:"Floating-point division by zero returns positive Infinity (not an exception) per IEEE 754."},
+{t:8,q:"What is the result of -10.0 / 0.0 in Java?",o:["ArithmeticException","-Infinity","NaN","0"],a:1,e:"-10.0 / 0.0 returns Double.NEGATIVE_INFINITY per IEEE 754."},
+{t:8,q:"What is the result of 10 / 0 (integer) in Java?",o:["Infinity","NaN","0","ArithmeticException: / by zero"],a:3,e:"Integer division by zero throws ArithmeticException. This is different from float division."},
+{t:8,q:"What constant represents positive infinity in Java?",o:["Double.MAX_VALUE","Double.INFINITY","Double.POSITIVE_INFINITY","Float.INFINITY"],a:2,e:"Double.POSITIVE_INFINITY represents positive infinity; similarly Float.POSITIVE_INFINITY."},
+{t:8,q:"What is the result of 0.0 / 0.0?",o:["0","Infinity","NaN","ArithmeticException"],a:2,e:"0.0 / 0.0 produces NaN (Not a Number) per IEEE 754."},
+{t:8,q:"How do you check if a double is infinite?",o:["d == Double.INFINITY","Double.isInfinite(d)","d > Double.MAX_VALUE","d.isInfinite()"],a:1,e:"Double.isInfinite(d) returns true if d is positive or negative infinity."},
+{t:8,q:"What is the result of Double.POSITIVE_INFINITY + 1?",o:["Overflow","ArithmeticException","Double.POSITIVE_INFINITY","Double.MAX_VALUE"],a:2,e:"Infinity + any finite number = Infinity (IEEE 754 arithmetic)."},
+{t:8,q:"What is the result of Double.POSITIVE_INFINITY * -1?",o:["Double.MAX_VALUE","0","NaN","Double.NEGATIVE_INFINITY"],a:3,e:"POSITIVE_INFINITY * negative number = NEGATIVE_INFINITY."},
+{t:8,q:"What is NaN?",o:["Negative And Null","Not A Number","Null And Nothing","New Arithmetic Notation"],a:1,e:"NaN stands for 'Not a Number' — the result of undefined floating-point operations like 0.0/0.0."},
+{t:8,q:"How do you check if a value is NaN?",o:["d == Double.NaN","d.equals(NaN)","Double.isNaN(d)","d != d"],a:2,e:"Double.isNaN(d) is the correct way. Note: NaN != NaN is true (NaN is never equal to itself), so d != d also works."},
+{t:8,q:"What is NaN == NaN?",o:["true","false","Compile error","NullPointerException"],a:1,e:"NaN is never equal to itself: NaN == NaN returns false (IEEE 754 rule)."},
+{t:8,q:"What is the result of Double.POSITIVE_INFINITY - Double.POSITIVE_INFINITY?",o:["0","Infinity","NaN","ArithmeticException"],a:2,e:"Infinity - Infinity is an indeterminate form → NaN."},
+{t:8,q:"What is the result of Infinity * 0?",o:["0","Infinity","NaN","ArithmeticException"],a:2,e:"Infinity * 0 is indeterminate → NaN."},
+{t:8,q:"What is 1.0 / Double.POSITIVE_INFINITY?",o:["Infinity","1","0.0","NaN"],a:2,e:"Any finite number / Infinity = 0.0 (approaches zero)."},
+{t:8,q:"What is Double.POSITIVE_INFINITY / Double.POSITIVE_INFINITY?",o:["1","Infinity","0","NaN"],a:3,e:"Infinity / Infinity is indeterminate → NaN."},
+{t:8,q:"Does Java's float also have Infinity?",o:["No","Yes","Only Double","Only long"],a:1,e:"Both float and double have POSITIVE_INFINITY, NEGATIVE_INFINITY, and NaN constants."},
+{t:8,q:"What is Math.sqrt(-1.0)?",o:["ArithmeticException","NaN","-1","Complex number i"],a:1,e:"Math.sqrt of a negative double returns NaN (not an exception in floating-point)."},
+{t:8,q:"What does Double.isFinite(d) return for Infinity?",o:["true","false","Exception","null"],a:1,e:"Double.isFinite() returns false for Infinity and NaN, true for normal finite numbers."},
+{t:8,q:"What is the result of (int) Double.POSITIVE_INFINITY?",o:["Integer.MAX_VALUE","0","Integer.MIN_VALUE","ArithmeticException"],a:0,e:"Casting Infinity to int yields Integer.MAX_VALUE (the maximum int value)."},
+{t:8,q:"What is the result of Double.POSITIVE_INFINITY > Double.MAX_VALUE?",o:["false","true","NaN","Compile error"],a:1,e:"Infinity is greater than any finite double, including Double.MAX_VALUE."},
+{t:8,q:"What is Double.NEGATIVE_INFINITY < Double.MIN_VALUE?",o:["false","true","NaN","Compile error"],a:1,e:"NEGATIVE_INFINITY is less than any finite value including Double.MIN_VALUE (smallest positive double)."},
+{t:8,q:"What is the result of Math.log(0.0)?",o:["0","Infinity","-Infinity","NaN"],a:2,e:"Math.log(0.0) returns NEGATIVE_INFINITY since log approaches -∞ as x→0+."},
+{t:8,q:"What is the result of Math.log(-1.0)?",o:["Compile error","ArithmeticException","-Infinity","NaN"],a:3,e:"Math.log of negative number returns NaN."},
+{t:8,q:"Can Infinity be stored in a variable of type double?",o:["No","Yes","Only as a constant","Only at compile time"],a:1,e:"double d = Double.POSITIVE_INFINITY; is perfectly valid."},
+{t:8,q:"What is the result of NaN + 5.0?",o:["5.0","0","NaN","ArithmeticException"],a:2,e:"Any arithmetic operation with NaN produces NaN."},
+{t:8,q:"What is Double.toString(Double.POSITIVE_INFINITY)?",o:["\"Double.POSITIVE_INFINITY\"","\"Inf\"","\"Infinity\"","\"MAX\""],a:2,e:"Double.toString(Double.POSITIVE_INFINITY) returns the string \"Infinity\"."},
+{t:8,q:"What is the result of Double.POSITIVE_INFINITY * Double.NEGATIVE_INFINITY?",o:["0","NaN","Double.POSITIVE_INFINITY","Double.NEGATIVE_INFINITY"],a:3,e:"Positive infinity * negative infinity = negative infinity."},
+{t:8,q:"What does IEEE 754 define for 1.0/0.0?",o:["Exception","Undefined","Positive Infinity","Zero"],a:2,e:"IEEE 754 standard defines 1.0/0.0 as positive infinity, not an exception."},
+{t:8,q:"What is the result of Double.NaN > 5.0?",o:["true","false","NaN","Exception"],a:1,e:"Any comparison with NaN returns false: NaN > 5.0 is false. Even NaN > NaN is false."},
+{t:8,q:"What is Math.max(Double.NaN, 5.0)?",o:["5.0","NaN","Double.POSITIVE_INFINITY","0"],a:1,e:"Math.max returns NaN if either argument is NaN."},
+];
+
+// State
+let state = {
+  screen: 'topics',
+  questions: [],
+  current: 0,
+  score: 0,
+  answers: [],
+  topicName: '',
+  topicId: -1,
+  answered: false
+};
+
+function init() {
+  const grid = document.getElementById('topics-grid');
+  TOPICS.forEach((t, i) => {
+    const count = ALL_QUESTIONS.filter(q => q.t === t.id).length;
+    const card = document.createElement('div');
+    card.className = 'topic-card';
+    card.style.cssText = `--tc:${t.color}; animation-delay:${i*0.05}s`;
+    card.innerHTML = `
+      <div class="tc-icon">${t.icon}</div>
+      <div class="tc-info">
+        <div class="tc-name">${t.name}</div>
+        <div class="tc-desc">${t.desc}</div>
+      </div>
+      <div class="tc-count">${count} Qs</div>
+    `;
+    card.onclick = () => startQuiz(t.id, t.name, t.color);
+    grid.appendChild(card);
+  });
+}
+
+function startQuiz(topicId, topicName, color) {
+  const qs = topicId === -1 ? [...ALL_QUESTIONS] : ALL_QUESTIONS.filter(q => q.t === topicId);
+  state = { screen:'quiz', questions: shuffle(qs), current:0, score:0, answers:[], topicName, topicId, answered:false, color: color||'var(--accent)' };
+  document.getElementById('screen-topics').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'block';
+  document.getElementById('screen-results').style.display = 'none';
+  renderQuestion();
+}
+
+function startAll() { startQuiz(-1, 'All Topics (270 Qs)', 'var(--accent)'); }
+
+function shuffle(arr) { return [...arr].sort(() => Math.random() - 0.5); }
+
+function renderQuestion() {
+  state.answered = false;
+  const q = state.questions[state.current];
+  const total = state.questions.length;
+  const pct = Math.round((state.current / total) * 100);
+
+  document.getElementById('quiz-topic-name').textContent = state.topicName;
+  document.getElementById('quiz-progress-text').textContent = `${state.current + 1} / ${total}`;
+  document.getElementById('quiz-score-badge').textContent = `✓ ${state.score}  ✗ ${state.current - state.score + (state.answers.length > state.current ? 1 : 0)}`;
+  document.getElementById('progress-bar').style.width = pct + '%';
+
+  const LETTERS = ['A','B','C','D'];
+  const wrap = document.getElementById('question-wrap');
+  wrap.innerHTML = `
+    <div class="q-num">Q${state.current + 1} of ${total} &nbsp;·&nbsp; ${state.topicId === -1 ? TOPICS[q.t]?.name : state.topicName}</div>
+    <div class="q-text">${q.q}</div>
+    <div class="options" id="opts">
+      ${q.o.map((opt, i) => `
+        <div class="option" id="opt-${i}" onclick="selectOption(${i})">
+          <div class="opt-letter">${LETTERS[i]}</div>
+          <div>${opt}</div>
+        </div>`).join('')}
+    </div>
+    <div class="explanation" id="explanation">💡 ${q.e}</div>
+    <div class="nav-row" id="nav-row">
+      <button class="nav-btn btn-skip" onclick="skipQuestion()">Skip →</button>
+    </div>
+  `;
+}
+
+function selectOption(idx) {
+  if (state.answered) return;
+  state.answered = true;
+  const q = state.questions[state.current];
+  const correct = idx === q.a;
+  if (correct) state.score++;
+
+  state.answers.push({ q: q.q, chosen: idx, correct: q.a, isCorrect: correct, opts: q.o });
+
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.add('disabled');
+    if (i === q.a) el.classList.add('correct');
+    else if (i === idx && !correct) el.classList.add('wrong');
+  });
+
+  document.getElementById('explanation').classList.add('show');
+  document.getElementById('quiz-score-badge').textContent = `✓ ${state.score}  ✗ ${state.answers.length - state.score}`;
+
+  const nav = document.getElementById('nav-row');
+  const isLast = state.current >= state.questions.length - 1;
+  nav.innerHTML = isLast
+    ? `<button class="nav-btn btn-finish" onclick="showResults()">Finish & See Results 🎉</button>`
+    : `<button class="nav-btn btn-next" onclick="nextQuestion()">Next Question →</button>`;
+}
+
+function skipQuestion() {
+  state.answers.push({ q: state.questions[state.current].q, chosen: -1, correct: state.questions[state.current].a, isCorrect: false, opts: state.questions[state.current].o, skipped: true });
+  nextQuestion();
+}
+
+function nextQuestion() {
+  if (state.current < state.questions.length - 1) {
+    state.current++;
+    renderQuestion();
+  } else {
+    showResults();
+  }
+}
+
+function showResults() {
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'block';
+
+  const total = state.questions.length;
+  const pct = Math.round((state.score / total) * 100);
+  const skipped = state.answers.filter(a => a.skipped).length;
+  const wrong = state.answers.filter(a => !a.isCorrect && !a.skipped).length;
+
+  let emoji = '😓', grade = 'Keep Practicing';
+  if (pct >= 90) { emoji = '🏆'; grade = 'Outstanding!'; }
+  else if (pct >= 75) { emoji = '🎉'; grade = 'Great Job!'; }
+  else if (pct >= 60) { emoji = '👍'; grade = 'Good Effort!'; }
+  else if (pct >= 40) { emoji = '📚'; grade = 'Keep Studying!'; }
+
+  const wrongAnswers = state.answers.filter(a => !a.isCorrect);
+  const reviewHTML = wrongAnswers.length === 0 ? '<p style="color:var(--correct);text-align:center;font-family:Fira Code;font-size:14px;">🎯 Perfect score! All answers correct!</p>' :
+    wrongAnswers.slice(0, 20).map(a => `
+      <div class="review-item rev-wrong">
+        <div class="review-q">${a.q}</div>
+        <div class="review-ans">
+          ${a.skipped ? '<span style="color:var(--muted)">Skipped</span>' : `Your answer: <span class="w">${a.opts[a.chosen] || '?'}</span>`}<br>
+          Correct: <span class="c">${a.opts[a.correct]}</span>
+        </div>
+      </div>`).join('');
+
+  document.getElementById('results-inner').innerHTML = `
+    <div class="result-emoji">${emoji}</div>
+    <div class="result-title">${grade}</div>
+    <div class="result-topic">${state.topicName}</div>
+    <div class="score-ring-wrap">
+      <div class="score-ring" style="--pct:${pct}%">
+        <div class="score-big">${pct}%</div>
+        <div class="score-total">${state.score}/${total}</div>
+      </div>
+    </div>
+    <div class="stats-row">
+      <div class="stat-box"><div class="stat-val" style="color:var(--correct)">${state.score}</div><div class="stat-label">Correct</div></div>
+      <div class="stat-box"><div class="stat-val" style="color:var(--wrong)">${wrong}</div><div class="stat-label">Wrong</div></div>
+      <div class="stat-box"><div class="stat-val" style="color:var(--muted)">${skipped}</div><div class="stat-label">Skipped</div></div>
+      <div class="stat-box"><div class="stat-val" style="color:var(--accent4)">${total}</div><div class="stat-label">Total</div></div>
+    </div>
+    <div class="result-actions">
+      <button class="ra-btn ra-primary" onclick="startQuiz(${state.topicId}, '${state.topicName}', '${state.color}')">🔄 Retry Topic</button>
+      <button class="ra-btn ra-secondary" onclick="goHome()">← All Topics</button>
+    </div>
+    ${wrongAnswers.length > 0 ? `<div class="review-list"><div class="review-title">📝 Review Wrong Answers (${Math.min(wrongAnswers.length,20)} shown)</div>${reviewHTML}</div>` : ''}
+  `;
+}
+
+function goHome() {
+  document.getElementById('screen-topics').style.display = 'block';
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'none';
+}
+
+init();
+</script>
+</body>
+</html>s
